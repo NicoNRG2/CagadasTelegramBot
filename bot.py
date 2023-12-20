@@ -1,21 +1,13 @@
 from typing import Dict
 from datetime import datetime
+import re
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
-TOKEN = "6938292958:AAHAtiXdVOYFcmqjR3gK6i1KirRAmSW71bQ"
+TOKEN = "your token from bot father"
 
 giocatori: Dict[str, int] = {}
 data_inizio = datetime.now()
-
-def estrai_nome_e_numero(testo):
-    parole = testo.split()
-    if len(parole) == 3:
-        nome = parole[1]
-        numero = parole[2]
-        return nome, numero
-
-    return None
 
 # comandi
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -31,13 +23,15 @@ async def get_cagate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
 
 async def set_cagate(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text: str = update.message.text
-    risultato = estrai_nome_e_numero(text)
-    if risultato:
-        nome, numero = risultato
+    pattern = r'/set_cagate "(.*?)" (\d+)'
+    matches = re.match(pattern, text)
+    if matches:
+        nome = matches.group(1)
+        numero = int(matches.group(2))
         giocatori[nome] = int(numero)
         risposta = f"Set {numero} Cadate a {nome}"
     else:
-        risposta = "Non hai scritto giusto"
+        risposta = 'Usa /set_cagate "NOME" VALORE'
     await update.message.reply_text(risposta)
 
 async def reset(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
