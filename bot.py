@@ -3,7 +3,7 @@ from datetime import datetime
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
-TOKEN = "6938292958:AAHAtiXdVOYFcmqjR3gK6i1KirRAmSW71bQ"
+TOKEN = "INSERISCI IL TOKEN DEL BOT QUI"
 
 giocatori: Dict[str, int] = {}
 data_inizio = datetime.now()
